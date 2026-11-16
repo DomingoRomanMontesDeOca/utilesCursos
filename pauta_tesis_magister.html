@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pauta de calificación para tesis de magíster en lingüística USACH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f4ef; --surface:#ffffff; --ink:#1f2933; --muted:#5b6670;
+    --line:#dcd8cf; --accent:#00517a; --accent-soft:#e6eff4;
+    --warn:#a4361f; --ok:#2f6b3a; --opt:#7a5a00;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",system-ui,sans-serif;font-size:16px;line-height:1.5}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:clamp(1.5rem,3.5vw,2.1rem);line-height:1.2;margin:0 0 8px;color:var(--accent)}
+  .lead{color:var(--muted);margin:0 0 24px;max-width:70ch}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:20px}
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 18px}
+  label.f{display:flex;flex-direction:column;font-size:.85rem;font-weight:600;color:var(--muted);gap:4px}
+  label.f input{font:inherit;font-weight:400;color:var(--ink);padding:8px 10px;border:1px solid var(--line);border-radius:6px}
+  .scale{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.92rem}
+  .scale b{color:var(--accent)}
+  h2{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.2rem;margin:0}
+  .ihead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:6px}
+  .ihead .w{font-size:.9rem;color:var(--muted)}
+  .sub{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+  .sub:last-of-type{border-bottom:none}
+  .sub .t{font-size:.98rem}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--opt);background:#fbf2d9;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+  .sub input{width:70px;font:inherit;font-size:1.05rem;text-align:center;padding:6px;border:1px solid var(--line);border-radius:6px;font-variant-numeric:tabular-nums}
+  .sub input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .sub input.bad{border-color:var(--warn);background:#fbecea}
+  .err{grid-column:1/-1;color:var(--warn);font-size:.82rem;margin-top:-4px}
+  .isum{margin-top:10px;font-size:.9rem;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap}
+  .isum b{color:var(--ink);font-variant-numeric:tabular-nums}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+  td:nth-child(n+2){white-space:nowrap}
+  th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  th{font-size:.85rem;color:var(--muted);font-weight:600}
+  tr.final td{border-top:2px solid var(--ink);border-bottom:none;font-weight:700;font-size:1.05rem}
+  .pend{color:var(--muted);font-style:normal}
+  .low{color:var(--warn);font-weight:600}
+  .pass{color:var(--ok);font-weight:600}
+  .note{font-size:.85rem;color:var(--muted);margin-top:12px}
+  .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  button{font:inherit;font-weight:600;padding:8px 16px;border-radius:6px;border:1px solid var(--accent);background:var(--surface);color:var(--accent);cursor:pointer}
+  button.primary{background:var(--accent);color:#fff}
+  @media (max-width:560px){
+    .wrap{padding:20px 14px 48px}
+    .card{padding:16px 14px}
+    th,td{padding:8px 4px;font-size:.88rem}
+  }
+  @media print{ body{background:#fff} .actions{display:none} .card{break-inside:avoid;border-color:#bbb} }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Pauta de calificación para tesis de magíster en lingüística USACH</h1>
+  <p class="lead">Ingrese un número entero entre 1 y 4 en cada subítem. Los subítemes marcados como opcionales pueden dejarse en blanco; en ese caso no se consideran en el cálculo.</p>
+
+  <section class="card">
+    <div class="meta">
+      <label class="f">Estudiante<input type="text" id="estudiante"></label>
+      <label class="f">Título de la tesis<input type="text" id="titulo"></label>
+      <label class="f">Evaluador(a)<input type="text" id="evaluador"></label>
+      <label class="f">Fecha<input type="date" id="fecha"></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="scale" aria-label="Escala de puntajes">
+      <span><b>4</b> Excelente</span>
+      <span><b>3</b> Bueno</span>
+      <span><b>2</b> Suficiente</span>
+      <span><b>1</b> Insuficiente</span>
+    </div>
+  </section>
+
+  <form id="pauta" autocomplete="off"></form>
+
+  <section class="card">
+    <h2 style="margin-bottom:10px">Reporte de calificación</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Ítem</th><th>Puntos</th><th>Nota</th><th>Ponderación</th></tr></thead>
+        <tbody id="reporte"></tbody>
+      </table>
+    </div>
+    <p class="note">Escala de notas de 1,0 a 7,0 con exigencia del 70 %: el puntaje mínimo posible de cada ítem equivale a 1,0; el 70 % del puntaje máximo equivale a 4,0; el puntaje máximo equivale a 7,0. La nota final es el promedio ponderado de las notas de los ítemes, redondeado a un decimal.</p>
+    <div class="actions">
+      <button type="button" class="primary" onclick="window.print()">Imprimir / guardar PDF</button>
+      <button type="button" id="limpiar">Limpiar formulario</button>
+    </div>
+  </section>
+</main>
+
+<script>
+const ITEMS = [
+  {id:1, nombre:"Ítem 1. Problema de investigación", peso:0.15, subs:[
+    ["1.1","Se presentan antecedentes teóricos y empíricos que sirven para contextualizar el problema"],
+    ["1.2","Clara definición del objeto de estudio"],
+    ["1.3","Pregunta(s) de investigación"],
+    ["1.4","Objetivo general"],
+    ["1.5","Objetivos específicos"]]},
+  {id:2, nombre:"Ítem 2. Marco teórico y aspectos formales", peso:0.20, subs:[
+    ["2.1","Marco referencial. Discusión de estudios pioneros relacionados con el objeto de estudio"],
+    ["2.2","Marco conceptual"],
+    ["2.3","Uso del discurso académico"],
+    ["2.4","Redacción y ortografía"],
+    ["2.5","Referencias bibliográficas"]]},
+  {id:3, nombre:"Ítem 3. Marco metodológico", peso:0.15, subs:[
+    ["3.1","Tipo de estudio"],
+    ["3.2","Hipótesis (si procede)",true],
+    ["3.3","Sujetos y/o corpus"],
+    ["3.4","Instrumentos"],
+    ["3.5","Procedimientos"],
+    ["3.6","Plan de análisis de los datos",true]]},
+  {id:4, nombre:"Ítem 4. Análisis y resultados", peso:0.30, subs:[
+    ["4.1","Claridad y síntesis en la exposición de los resultados"],
+    ["4.2","Análisis adecuado de los datos"],
+    ["4.3","Interpretaciones consistentes con los datos expuestos"]]},
+  {id:5, nombre:"Ítem 5. Conclusiones", peso:0.20, subs:[
+    ["5.1","Conclusiones pertinentes con los objetivos planteados"],
+    ["5.2","Conclusiones coherentes con los datos expuestos"],
+    ["5.3","Relación de las conclusiones con el marco teórico"],
+    ["5.4","Establecimiento de desafíos para futuras investigaciones"]]}
+];
+const EXIG = 0.70;
+const fmt = (n,d=1) => n.toLocaleString("es-CL",{minimumFractionDigits:d,maximumFractionDigits:d});
+const round1 = x => Math.round(x*10 + 1e-9)/10;
+
+// Nota según escala 1,0–7,0 con 4,0 al 70 % del máximo; el mínimo posible = 1,0
+function nota(p, pmin, pmax){
+  const corte = EXIG * pmax;
+  let n = p < corte ? 1 + 3*(p - pmin)/(corte - pmin)
+                    : 4 + 3*(p - corte)/(pmax - corte);
+  return Math.min(7, Math.max(1, n));
+}
+
+const form = document.getElementById("pauta");
+form.innerHTML = ITEMS.map(it => {
+  const req = it.subs.filter(s=>!s[2]).length, tot = it.subs.length;
+  return `<section class="card" data-item="${it.id}">
+    <div class="ihead"><h2>${it.nombre}</h2><span class="w">Ponderación ${Math.round(it.peso*100)} %</span></div>
+    ${it.subs.map(([c,t,opt]) => `
+      <div class="sub">
+        <label class="t" for="s${c}">${c}. ${t}${opt?'<span class="tag">Opcional</span>':''}</label>
+        <input id="s${c}" data-item="${it.id}" data-opt="${opt?1:0}" type="number" inputmode="numeric" min="1" max="4" step="1" aria-label="Puntaje ${c}">
+      </div>`).join("")}
+    <div class="isum" id="sum${it.id}"></div>
+  </section>`;
+}).join("");
+
+function leer(input){
+  const v = input.value.trim();
+  if (v === "") return {vacio:true};
+  const n = Number(v);
+  if (!Number.isInteger(n) || n < 1 || n > 4) return {invalido:true};
+  return {valor:n};
+}
+
+function calcular(){
+  let filas = "", sumaPond = 0, completo = true, ptsTot = 0, maxTot = 0;
+  ITEMS.forEach(it => {
+    const inputs = [...form.querySelectorAll(`input[data-item="${it.id}"]`)];
+    let pts = 0, n = 0, faltan = 0, malos = 0;
+    inputs.forEach(inp => {
+      const r = leer(inp), opt = inp.dataset.opt === "1";
+      inp.classList.toggle("bad", !!r.invalido);
+      if (r.invalido) malos++;
+      else if (r.vacio){ if(!opt) faltan++; }
+      else { pts += r.valor; n++; }
+    });
+    const nReq = inputs.filter(i=>i.dataset.opt!=="1").length;
+    const nCons = n + faltan; // subítemes considerados
+    const pmin = nCons, pmax = 4*nCons;
+    const listo = faltan === 0 && malos === 0;
+    let notaTxt = '<span class="pend">—</span>', ptsTxt = `${pts} / ${pmax}`, pondTxt = `${Math.round(it.peso*100)} %`;
+    if (listo){
+      const nt = nota(pts, pmin, pmax);
+      const ntR = round1(nt);
+      sumaPond += ntR * it.peso;
+      ptsTot += pts; maxTot += pmax;
+      notaTxt = `<span class="${ntR<4?'low':'pass'}">${fmt(ntR)}</span>`;
+      pondTxt = `${Math.round(it.peso*100)} % → ${fmt(ntR*it.peso,2)}`;
+    } else completo = false;
+    const estado = malos ? `<span class="low">Hay valores no válidos (solo enteros de 1 a 4)</span>`
+                 : faltan ? `Faltan ${faltan} subítem(es) obligatorio(s)` : "Completo";
+    document.getElementById("sum"+it.id).innerHTML =
+      `<span>Puntos: <b>${pts}</b> de <b>${pmax}</b> (mín. ${pmin})</span>
+       <span>Subítemes considerados: <b>${nCons}</b></span><span>${estado}</span>`;
+    filas += `<tr><td>${it.nombre}</td><td>${ptsTxt}</td><td>${notaTxt}</td><td>${pondTxt}</td></tr>`;
+  });
+  const fin = completo ? round1(sumaPond) : null;
+  filas += `<tr class="final"><td>Resultado final</td><td>${completo?`${ptsTot} / ${maxTot}`:'—'}</td>
+    <td>${completo?`<span class="${fin<4?'low':'pass'}">${fmt(fin)}</span>`:'<span class="pend">Incompleto</span>'}</td><td>100 %</td></tr>`;
+  document.getElementById("reporte").innerHTML = filas;
+}
+
+form.addEventListener("input", calcular);
+form.addEventListener("keydown", e => { if (e.key === "Enter") e.preventDefault(); });
+document.getElementById("limpiar").addEventListener("click", () => {
+  form.querySelectorAll("input").forEach(i => i.value = "");
+  calcular();
+});
+calcular();
+</script>
+</body>
+</html>
